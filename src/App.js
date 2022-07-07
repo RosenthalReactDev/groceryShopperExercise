@@ -1,34 +1,26 @@
-import Cart from './components/Cart';
-import Shopper from './components/Shopper';
-
-import carts from './data/carts.json'
-import shoppers from './data/shoppers.json'
+import AssignmentView from './components/AssignmentView'
+import ListView from './components/ListView'
 
 import './App.css';
+import { useState } from 'react';
 
 function App() {
 
-  function handleCartClick() {
-    console.log('open assignment view')
-  }
+  const [showAssignment, setShowAssignment] = useState(false)
+  const [cartItem, setCartItem] = useState({})
+  const [cartIndex, setCartIndex] = useState()
 
-  const getCarts = () => {
-    return carts.map((cart, index) => <Cart key={index} cart={cart} index={index+1} clickHandler={handleCartClick}/>)
-  }
-
-  const getShoppers = () => {
-    return shoppers.map(shopper => <Shopper key={shopper.id} shopper={shopper}/>)
+  function handleCartClick(cart, index) {
+    setShowAssignment(true);
+    setCartItem({cartItem: cart})
+    setCartIndex({cartIndex: index})
   }
 
   return (
-    <div className='app-container'>
-      <div className='unassigned-container'>
-        <span className='title'>Unassigned Carts</span>
-        {getCarts()}
-      </div>
-      <div className="shoppers-container">
-        {getShoppers()}
-      </div>
+    <div>
+      {
+        showAssignment ? <AssignmentView cartItem={cartItem} index={cartIndex}/> : <ListView cartClick={handleCartClick}/>
+      }
     </div>
   );
 }
